@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import taskRouter from "./routes/taskRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -9,8 +10,10 @@ app.use(cors());
 app.use(express.json());
 mongoose.set("strictQuery", false);
 
-// Database
+// ROUTES
+app.use("/api/v1/task", taskRouter);
 
+// Database
 mongoose.connect(process.env.MONGODB_URL, () => {
   if (process.env.NODE_ENV !== "production") {
     console.log(`Database connected`);
