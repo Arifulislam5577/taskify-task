@@ -1,33 +1,35 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const AddTask = () => {
-  const [name, setName] = useState("");
-  const [position, setPosition] = useState("");
-  const [checked, setChecked] = useState(false);
+  const { state } = useLocation();
+
+  const [name, setName] = useState(state?.name);
+  const [position, setPosition] = useState(state?.position);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!checked) {
-      return;
-    }
+
     try {
       setLoading(true);
       setMessage("");
 
-      const response = await fetch("http://localhost:8000/api/v1/task", {
-        method: "POST",
-        body: JSON.stringify({
-          name,
-          position,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8000/api/v1/task/${state?._id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            name,
+            position,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
       const result = await response.json();
 
       if (result) {
@@ -35,7 +37,7 @@ const AddTask = () => {
         setMessage("");
         setName("");
         setPosition("");
-        toast.success("Task Added Successfully");
+        toast.success("Task Update Successfully");
       }
     } catch (error) {
       setLoading(false);
@@ -79,46 +81,20 @@ const AddTask = () => {
               onChange={(e) => setPosition(e.target.value)}
               required
             >
-              <option defaultValue>Select Position</option>
+              <option defaultValue>{state?.position}</option>
               <option value="One">One</option>
               <option value="Two">Two</option>
               <option value="Three">Three</option>
             </select>
           </div>
-          <div className="mb-4">
-            <div className="flex items-center">
-              <input
-                id="link-checkbox"
-                type="checkbox"
-                onChange={(e) => setChecked(e.target.checked)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                htmlFor="link-checkbox"
-                className="ml-2 text-sm font-medium text-gray-500 "
-              >
-                I agree with the{" "}
-                <Link
-                  to="/"
-                  className="text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  terms and conditions
-                </Link>
-                .
-              </label>
-            </div>
-          </div>
 
           <div className="mb-4">
             <button
-              disabled={!checked}
-              className={`w-full py-2.5  ${
-                checked
-                  ? "bg-gray-900 hover:bg-gray-800"
-                  : "bg-gray-400 cursor-not-allowed"
-              } text-white rounded uppercase text-sm `}
+              className={`w-full py-2.5 bg-gray-900 hover:bg-gray-800
+              
+               text-white rounded uppercase text-sm `}
             >
-              {loading ? "Loading..." : "Add Task"}
+              {loading ? "Loading..." : "Update Task"}
             </button>
           </div>
         </form>

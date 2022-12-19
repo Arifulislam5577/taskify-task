@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-
+import { MdAddTask } from "react-icons/md";
+import { FaTasks } from "react-icons/fa";
 const Home = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 lg:min-h-screen">
@@ -10,12 +11,18 @@ const Home = () => {
             Taskify
           </Link>
         </div>
-        <ul className="flex lg:flex-col items-start justify-between gap-3 text-sm uppercase ">
+        <ul className="flex lg:flex-col items-start justify-between gap-1 text-sm uppercase font-bold">
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" className="flex items-center gap-1">
+              <MdAddTask />
+              Add Task
+            </Link>
           </li>
           <li>
-            <Link to="/view">My Task</Link>
+            <Link to="/view" className="flex items-center gap-1">
+              <FaTasks />
+              My Task
+            </Link>
           </li>
         </ul>
       </div>
