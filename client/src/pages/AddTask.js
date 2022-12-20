@@ -6,8 +6,6 @@ import UseFetch from "../hooks/useFetch";
 const AddTask = () => {
   const { data } = UseFetch("http://localhost:8000/api/v1/category");
 
-  console.log(data);
-
   let optionArr = [];
   function newArrayElement(arr) {
     arr.forEach((item) => {
