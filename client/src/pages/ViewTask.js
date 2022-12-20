@@ -5,14 +5,19 @@ import { useNavigate } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 const ViewTask = () => {
   const [tasks, setTasks] = useState([]);
+
+  // NAVIGATE PAGES
   const navigate = useNavigate();
   const handleClick = (task) => {
     navigate(`/task/${task._id}`, { state: task });
   };
+
+  // LOAD TASK FROM SERVER
   const { data, message, loading } = UseFetch(
     "http://localhost:8000/api/v1/task"
   );
 
+  // DELETE A TASK
   const handleDeleteTask = async (id) => {
     try {
       const response = await fetch(`http://localhost:8000/api/v1/task/${id}`, {

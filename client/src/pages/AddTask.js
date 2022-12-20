@@ -1,13 +1,32 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import UseFetch from "../hooks/useFetch";
 
 const AddTask = () => {
+  const { data } = UseFetch("http://localhost:8000/api/v1/category");
+
+  console.log(data);
+
+  let optionArr = [];
+  function newArrayElement(arr) {
+    arr.forEach((item) => {
+      optionArr.push(item.positionName);
+      if (Array.isArray(item.subPositionName)) {
+        newArrayElement(item.subPositionName);
+      }
+    });
+  }
+
+  newArrayElement(data);
+
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
   const [checked, setChecked] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // NESTED OPTIONS
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,9 +99,11 @@ const AddTask = () => {
               required
             >
               <option defaultValue>Select Position</option>
-              <option value="One">One</option>
-              <option value="Two">Two</option>
-              <option value="Three">Three</option>
+              {optionArr.map((option, index) => (
+                <option key={index} className="text-gray-900" value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-4">

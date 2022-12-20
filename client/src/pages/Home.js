@@ -1,8 +1,15 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { MdAddTask } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
 const Home = () => {
+  const activeClass = {
+    backgroundColor: "#7f1d1d",
+  };
+
+  const inActiveClass = {
+    backgroundColor: "#111827",
+  };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 lg:min-h-screen">
       <div className="lg:col-span-1 w-full bg-gray-200 flex items-center lg:flex-col h-full lg:justify-center justify-between container lg:py-0 py-5">
@@ -11,18 +18,26 @@ const Home = () => {
             Taskify
           </Link>
         </div>
-        <ul className="flex lg:flex-col items-start justify-between gap-5 lg:gap-1 text-sm uppercase lg:font-bold">
+        <ul className="flex lg:flex-col items-start justify-between gap-5 lg:gap-1 text-sm uppercase ">
           <li>
-            <Link to="/" className="flex items-center gap-1">
+            <NavLink
+              style={({ isActive }) => (isActive ? activeClass : inActiveClass)}
+              to="/"
+              className="flex items-center gap-2 border rounded-full bg-gray-900 text-white py-2.5 px-5 text-xs"
+            >
               <MdAddTask />
               Add Task
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/view" className="flex items-center gap-1">
+            <NavLink
+              to="/view"
+              style={({ isActive }) => (isActive ? activeClass : inActiveClass)}
+              className="flex items-center gap-2 border rounded-full bg-gray-900 text-white py-2.5 px-5 text-xs"
+            >
               <FaTasks />
               My Task
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>

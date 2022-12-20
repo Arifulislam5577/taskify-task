@@ -1,4 +1,4 @@
-const arr = [
+export const arr = [
   {
     positionName: "Manufacturing",
     subPositionName: [
@@ -80,7 +80,6 @@ const arr = [
             subPositionName: [
               { positionName: "Blowing" },
               { positionName: "Moulding" },
-              { positionName: "Plastics welding and processing" },
               { positionName: "Plastics welding and processing" },
             ],
           },
