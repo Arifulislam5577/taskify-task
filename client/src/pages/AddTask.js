@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import UseFetch from "../hooks/useFetch";
-
+// https://taskify-kappa-pink.vercel.app
 const AddTask = () => {
-  const { data } = UseFetch("http://localhost:8000/api/v1/category");
+  const { data } = UseFetch(
+    "https://taskify-kappa-pink.vercel.app/api/v1/category"
+  );
 
   let optionArr = [];
   function newArrayElement(arr) {
@@ -35,16 +37,19 @@ const AddTask = () => {
       setLoading(true);
       setMessage("");
 
-      const response = await fetch("http://localhost:8000/api/v1/task", {
-        method: "POST",
-        body: JSON.stringify({
-          name,
-          position,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://taskify-kappa-pink.vercel.app/api/v1/task",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            position,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
       const result = await response.json();
 
       if (result) {

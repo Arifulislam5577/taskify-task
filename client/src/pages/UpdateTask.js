@@ -18,7 +18,7 @@ const AddTask = () => {
       setMessage("");
 
       const response = await fetch(
-        `http://localhost:8000/api/v1/task/${state?._id}`,
+        `https://taskify-kappa-pink.vercel.app/api/v1/task/${state?._id}`,
         {
           method: "PATCH",
           body: JSON.stringify({

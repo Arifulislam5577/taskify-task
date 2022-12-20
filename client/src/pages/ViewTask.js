@@ -14,16 +14,19 @@ const ViewTask = () => {
 
   // LOAD TASK FROM SERVER
   const { data, message, loading } = UseFetch(
-    "http://localhost:8000/api/v1/task"
+    "https://taskify-kappa-pink.vercel.app/api/v1/task"
   );
 
   // DELETE A TASK
   const handleDeleteTask = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/v1/task/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        `https://taskify-kappa-pink.vercel.app/api/v1/task/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       const result = await response.json();
 
       if (result) {
