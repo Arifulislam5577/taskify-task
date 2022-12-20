@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UseFetch from "../hooks/useFetch";
 const ViewTask = () => {
+  const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
-
   const handleClick = (task) => {
     navigate(`/task/${task._id}`, { state: task });
   };
   const { data, message, loading } = UseFetch(
     "http://localhost:8000/api/v1/task"
   );
+
+  const handleDeleteTask = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/task/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      const result = await response.json();
+
+      if (result) {
+        toast.success("Task Delete Successfully");
+        setTasks(tasks.filter((task) => task._id !== id));
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (data.length) {
+      setTasks(data);
+    }
+  }, [data]);
 
   if (loading) {
     return (
@@ -29,6 +53,16 @@ const ViewTask = () => {
     return (
       <div className="container  my-10 text-center text-sm text-red-500">
         <h1>{message}</h1>
+      </div>
+    );
+  }
+
+  if (tasks?.length === 0) {
+    return (
+      <div className="container  my-10 text-center text-sm text-gray-900 font-bold">
+        <h1 className="lg:w-1/2 p-3 bg-gray-900 text-white mx-auto">
+          No Task Added
+        </h1>
       </div>
     );
   }
@@ -61,8 +95,8 @@ const ViewTask = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.map((task) => (
-                  <tr className="bg-white border-b" key={task._id}>
+                {tasks?.map((task, index) => (
+                  <tr className={`bg-gray-50   border-b`} key={task._id}>
                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {task.name}
                     </td>
@@ -73,7 +107,7 @@ const ViewTask = () => {
                       <button onClick={() => handleClick(task)}>
                         <FaEdit size="16" color="#111827" />
                       </button>
-                      <button>
+                      <button onClick={() => handleDeleteTask(task._id)}>
                         <FaTrashAlt size="16" color="#dc2626" />
                       </button>
                     </td>

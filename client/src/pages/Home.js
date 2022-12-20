@@ -11,7 +11,7 @@ const Home = () => {
             Taskify
           </Link>
         </div>
-        <ul className="flex lg:flex-col items-start justify-between gap-1 text-sm uppercase font-bold">
+        <ul className="flex lg:flex-col items-start justify-between gap-5 lg:gap-1 text-sm uppercase lg:font-bold">
           <li>
             <Link to="/" className="flex items-center gap-1">
               <MdAddTask />
